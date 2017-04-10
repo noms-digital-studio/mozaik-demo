@@ -26,6 +26,6 @@ dashboards:
         - noms-digital-studio/csra-mvp#master
         - noms-digital-studio/iis#master
     columns:      1
-    rows:         1
+    rows:         2
     x:            0
     y:            0

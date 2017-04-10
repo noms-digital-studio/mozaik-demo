@@ -1,5 +1,6 @@
-const request = require('superagent')
-const chalk   = require('chalk')
+const request = require('superagent');
+const chalk = require('chalk');
+const _ = require('lodash');
 
 /**
  * @param {Mozaik} mozaik
@@ -34,21 +35,36 @@ const client = mozaik => {
         const repoInfo = parseRepoInfo(repo);
         return makeApiRequest(`/project/github/${repoInfo.name}/tree/${repoInfo.branch}`, {limit: 1})
             .then((result) => ({
+                id: repo,
                 repo: result[0].reponame,
                 branch: result[0].branch,
-                status: result[0].status,
-                time: result[0].stop_time || result[0].start_time
+                status: result[0].outcome,
+                num: result[0].build_num,
+                time: result[0].stop_time || result[0].start_time,
+                url: result[0].build_url,
             }));
     }
 
     const apiCalls = {
         buildStatuses({ repos }) {
-            return Promise.all(repos.map(getBuildResults));
+            return Promise.all(repos.map(getBuildResults))
+                .then((results) => ({
+                    results: _.chain(results)
+                        .sortBy(statusSort)
+                        .reverse()
+                        .value()
+                }));
         },
     }
 
     return apiCalls
 }
 
+function statusSort(result) {
+    return [
+        result.status === 'success' ? 0 : 1,
+        result.time
+    ].join("-");
+}
 
 module.exports = client
