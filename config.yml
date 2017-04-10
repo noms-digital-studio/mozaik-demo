@@ -15,7 +15,7 @@ apisPollInterval: 10 * 1000
 
 dashboards:
 - columns: 4
-  rows:    3
+  rows:    2
   title:   Overwatch Dashboard
   widgets:
   - extension:    circle
@@ -26,6 +26,6 @@ dashboards:
         - noms-digital-studio/csra-mvp#master
         - noms-digital-studio/iis#master
     columns:      1
-    rows:         2
+    rows:         1
     x:            0
     y:            0
