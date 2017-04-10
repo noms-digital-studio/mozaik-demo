@@ -94,7 +94,7 @@ const statusColors = {
     canceled: 'warning',
     no_tests: 'warning',
     timedout: 'failure',
-    failure: 'failure',
+    failed: 'failure',
 };
 function getStatusColor(status) {
     if (statusColors[status]) {

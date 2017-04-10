@@ -38,7 +38,7 @@ const client = mozaik => {
                 id: repo,
                 repo: result[0].reponame,
                 branch: result[0].branch,
-                status: result[0].outcome,
+                status: result[0].outcome || result[0].status,
                 num: result[0].build_num,
                 time: result[0].stop_time || result[0].start_time,
                 url: result[0].build_url,
@@ -62,9 +62,15 @@ const client = mozaik => {
 
 function statusSort(result) {
     return [
-        result.status === 'success' ? 0 : 1,
+        statusOrder(result.status),
         result.time
     ].join("-");
+}
+
+function statusOrder(status) {
+    if (status === 'success') return 0;
+    if (status === 'failed') return 2;
+    return 1;
 }
 
 module.exports = client
